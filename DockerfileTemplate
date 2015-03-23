@@ -1,0 +1,8 @@
+FROM maccam912/meanjs:latest
+
+RUN git clone {{repo}}
+
+{% for command in shellCommands %}
+RUN {{command}}
+{% endfor %}
+
