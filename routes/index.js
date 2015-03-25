@@ -1,28 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var Docker = require('dockerode');
-var swig = require('swig');
-var shell = require('shelljs');
-var tar = require('tar');
-var fstream = require('fstream');
-var fs = require('fs');
+var DockerBuilder = require('../lib/DockerBuilder')
 
 
-var tarGzip = require('node-targz');
-
-var dirDest = fs.createWriteStream('archive.tar')
-
-
-function onError(err) {
-  console.error('An error occurred:', err)
-}
-
-function onEnd() {
-  console.log('Packed!')
-}
-
-
-var docker = new Docker();
 router.route('/')
 .get(function(req, res, next) {
 
@@ -44,45 +24,24 @@ router.route('/')
 
 .post(function(req, res, next){
 
-  var test = req.body;
-  var dockerfile = swig.renderFile('./DockerfileTemplate', test);
-  shell.mkdir('tmp');
-  dockerfile.to('tmp/Dockerfile');
 
-  // var packer = tar.Pack({ noProprietary: true })
-  //   .on('error', onError)
-  //   .on('end', onEnd);
-
-  // var reader = fstream.Reader({ path: 'tmp', type: 'Directory' });
+  var build = {
+    test: req.body,
+    TMP_DIR: 'tmp',
+    DF_PATH: 'tmp/Dockerfile',
+    TAR_DEST: 'archive.tar.gz',
+    queryParams: { 
+      t: 'cupojoe/test:' + Date.now() 
+    } 
+  };
   
-  // reader.on('error', onError)
-  // reader.on('end', function (){  
-  //   shell.rm('-rf', 'tmp');
-    
+  var dockerBuilder = new DockerBuilder(build, {});
 
-  //   docker.buildImage('archive.tar', { t: test._id }, function(err, response) {
-  //     if (err) onError(err);
-  //     console.log(response);
-  //     res.send(response);
-  //     //shell.rm('-f', 'archive.tar');
-  //   })
-  // });
-    
-  // reader.pipe(packer).pipe(dirDest);
- 
-  tarGzip.compress({
-    source: 'tmp',
-    destination: 'archive.tar.gz',
-  }, function () {
-    docker.buildImage('archive.tar.gz', { t: 'cupojoe/test:' + Date.now() }, function(err, response) {
-      if (err) onError(err);
-      shell.rm('-rf', 'tmp');
-      shell.rm('-f', 'archive.tar.gz');
-      console.log(JSON.parse(response.body))
-      res.send(dockerfile);
-    })
-    
+  dockerBuilder.buildImage(function (err, imageId) {
+    if (err) next(err);
+    res.send(imageId);
   });
+ 
 
 })
 module.exports = router;

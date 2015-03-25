@@ -5,7 +5,7 @@ var config = require('./config');
 
 gulp.task('deploy', function() {
   var rsyncConfig = config.rsync;
-  return gulp.src(['**/*.*','!node_modules/**'])
+  return gulp.src(['**/*','!node_modules/**'])
     .pipe(rsync({
       progress: true,
       username: rsyncConfig.username,
@@ -15,7 +15,7 @@ gulp.task('deploy', function() {
 })
 
 gulp.task('watch', function() {
-  gulp.watch('**', ['deploy']);
+  gulp.watch('**/*.*', ['deploy']);
 });
 
 gulp.task('default', ['watch']);

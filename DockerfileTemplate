@@ -1,13 +1,10 @@
-{% autoescape false %}
+
 FROM maccam912/meanjs:latest
 
-ENV DIRNAME ~/test_{{_id}}
-
-RUN git clone {{repo}} $DIRNAME
+RUN git clone {{repo}} ~/test_{{_id}}
 
 {% for command in shellCommands %}
-RUN cd $DIRNAME && {{command}}
+RUN cd ~/test_{{_id}} && {{command}}
 {% endfor %}
 
 ENTRYPOINT ["/bin/bash", "-c"]
-{% endautoescape %}
