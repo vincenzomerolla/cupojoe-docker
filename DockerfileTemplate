@@ -1,0 +1,13 @@
+{% autoescape false %}
+FROM maccam912/meanjs:latest
+
+ENV DIRNAME ~/test_{{_id}}
+
+RUN git clone {{repo}} $DIRNAME
+
+{% for command in shellCommands %}
+RUN cd $DIRNAME && {{command}}
+{% endfor %}
+
+ENTRYPOINT ["/bin/bash", "-c"]
+{% endautoescape %}
