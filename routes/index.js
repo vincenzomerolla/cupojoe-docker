@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Docker = require('dockerode');
 var swig = require('swig');
+<<<<<<< HEAD
 var shell = require('shelljs');
 var tar = require('tar');
 var fstream = require('fstream');
@@ -22,6 +23,8 @@ function onEnd() {
 }
 
 
+=======
+>>>>>>> 1cac0f4004f06cecd53b81c1641db412d404a121
 
 var docker = new Docker();
 router.route('/')
@@ -39,6 +42,7 @@ router.route('/')
   docker.run('5709d5b04409', ['bash', '-c', 'cd /Development/test_first_javascript/00_hello && mocha .'], res, function (err, data, container) {
     console.log(data, container);
     // res.json(data);
+<<<<<<< HEAD
   });
 
 
