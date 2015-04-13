@@ -1,5 +1,6 @@
 var express = require('express');
 var router = module.exports = express.Router();
+var Docker = require('dockerode');
 var DockerBuilder = require('../lib/DockerBuilder')
 
 
