@@ -1,8 +1,6 @@
-
 FROM maccam912/meanjs:latest
 
 RUN git clone {{repo}} ~/test_{{_id}}
-
 
 {% for command in shellCommands %}
 RUN cd ~/test_{{_id}} && {{command}}

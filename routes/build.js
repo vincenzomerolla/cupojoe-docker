@@ -1,13 +1,10 @@
 var express = require('express');
 var router = module.exports = express.Router();
 var DockerBuilder = require('../lib/DockerBuilder')
-var Docker = require('dockerode');
+
 
 router.route('/')
 .post(function (req, res, next){
-
-  console.log(req.body)
-
   var test = req.body;
   test.shellCommands = test.shellCommands.split('\n');  
 
@@ -39,6 +36,4 @@ router.route('/:id')
     if (err) return next(err);
     res.send(data);
   })
-})
-
-
+});
