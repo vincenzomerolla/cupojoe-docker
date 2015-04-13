@@ -1,8 +1,11 @@
+
 FROM maccam912/meanjs:latest
 
-RUN git clone {{repo}}
+RUN git clone {{repo}} ~/test_{{_id}}
+
 
 {% for command in shellCommands %}
-RUN {{command}}
+RUN cd ~/test_{{_id}} && {{command}}
 {% endfor %}
 
+ENTRYPOINT ["/bin/bash", "-c"]
