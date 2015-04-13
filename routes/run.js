@@ -4,8 +4,6 @@ var DockerRunner = require('../lib/DockerRunner');
 router.route('/')
 .post(function (req, res, next){
 
-
-  console.log(req.body);
   var result = req.body;
   result.testCommands = result.testCommands.split('\n');
   
