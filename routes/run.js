@@ -8,11 +8,8 @@ router.route('/')
   result.testCommands = result.testCommands.split('\n');
   
   var dockerRunner = new DockerRunner(result);
-
   dockerRunner.runCommand(res, function (err, output) {
     if (err) return next(err);
     res.send(output);
   });
- 
-
 });
