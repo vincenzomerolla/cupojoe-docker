@@ -10,6 +10,5 @@ router.route('/')
   var dockerRunner = new DockerRunner(result);
   dockerRunner.runCommand(res, function (err, output) {
     if (err) return next(err);
-    res.send(output);
   });
 });
