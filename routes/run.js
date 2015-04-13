@@ -13,8 +13,7 @@ router.route('/')
 
   dockerRunner.runCommand(res, function (err, output) {
     if (err) return next(err);
-    console.log(output);
-    //res.send(output);
+    res.send(output);
   });
  
 
